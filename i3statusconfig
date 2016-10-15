@@ -1,0 +1,69 @@
+from i3pystatus import Status
+
+status = Status()
+
+status.register("clock",
+    format="%a %-d %b %X",)
+
+status.register("temp",
+    format="TEMP: {temp:.0f}°C",)
+
+status.register("battery",
+    format="{status} {percentage:.2f}%",
+    alert=True,
+    alert_percentage=5,
+    status={
+        "DIS": "↓",
+        "CHR": "↑",
+        "FULL": "",
+    },)
+
+status.register("battery",
+    format="{status} {remaining:%E%hh:%Mm}",
+    alert=True,
+    alert_percentage=5,
+    status={
+        "DIS":  " Discharging",
+        "CHR":  " Charging",
+	"FULL": " On AC",
+    },)
+
+
+status.register("runwatch",
+    name="DHCP",
+    path="/var/run/dhc*.pid",)
+
+status.register("network",
+    interface="wlp1s0",
+    hints = {"markup": "pango"},
+    format_up = "<span color=\"#00FF00\">{essid}</span> D:{bytes_recv:6.1f}KiB U:{bytes_sent:5.1f}KiB",
+    format_down = "",
+    dynamic_color = True,
+    start_color = "#00FF00",
+    end_color = "#FF0000",
+    color_down = "#FF0000",
+    )
+
+
+status.register("disk",
+    path="/home",
+    format=" F:{avail}G",)
+
+status.register("disk",
+    hints={"separator": False, "separator_block_width": 0},
+    path="/home",
+    format="/home U:{used}G",)
+
+status.register("disk",
+    path="/",
+    format=" F:{avail}G",)
+
+status.register("disk",
+    hints={"separator": False, "separator_block_width": 0},
+    path="/",
+    format="/ U:{used}G",)
+
+
+
+
+status.run()
